@@ -26,6 +26,27 @@
       <label class="form-check-label"><strong>Liên hệ yêu thích</strong></label>
     </div>
     <div class="form-group">
+      <label><strong>Sở thích</strong></label>
+      <div class="d-flex flex-wrap gap-1">
+        <div
+          v-for="hobby in hobbyOptions"
+          :key="hobby.value"
+          class="form-check mr-2"
+        >
+          <input
+            type="checkbox"
+            class="form-check-input"
+            :id="'hobby-' + hobby.value"
+            :value="hobby.value"
+            v-model="contactLocal.hobbies"
+          />
+          <label class="form-check-label" :for="'hobby-' + hobby.value">
+            <i :class="hobby.icon"></i> {{ hobby.label }}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
       <button class="btn btn-primary">Lưu</button>
       <button v-if="contactLocal._id" type="button" class="ml-2 btn btn-danger"
         @click="deleteContact">Xóa</button>
@@ -60,8 +81,15 @@ export default {
       ),
     });
     return {
-      contactLocal: { ...this.contact },
+      contactLocal: { ...this.contact, hobbies: Array.isArray(this.contact.hobbies) ? [...this.contact.hobbies] : [] },
       contactFormSchema,
+      hobbyOptions: [
+        { value: "reading",  label: "Đọc sách",  icon: "fas fa-book" },
+        { value: "music",    label: "Nghe nhạc", icon: "fas fa-music" },
+        { value: "running",  label: "Chạy bộ",   icon: "fas fa-running" },
+        { value: "badminton",label: "Cầu lông",  icon: "fas fa-shuttlecock" },
+        { value: "football", label: "Đá bóng",   icon: "fas fa-futbol" },
+      ],
     };
   },
   methods: {
